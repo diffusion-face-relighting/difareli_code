@@ -1,0 +1,10 @@
+{
+    "pair": {
+        "pair1": {
+            "src": "66646.jpg",
+            "dst": "60000.jpg",
+            "rmv_shadow_bound": -3.509893838095271,
+            "add_shadow_bound": 6.317692368801287
+        }
+    }
+}

@@ -1,0 +1,37 @@
+img_model:
+  name: "ImgCond"
+  arch: "UNetCond_SpatialCondition_Hadamart"
+  image_size: 64
+  in_image: ['raw']
+  in_channels: 3
+  out_channels: 3
+  conditioning: True  # Conditioning with DECA
+  condition_proj_dim: 512
+  hadamart_prep: "Tanh"
+
+param_model:
+  params_selector: ['shape', 'pose', 'exp', 'cam', 'faceemb', 'shadow']
+
+img_cond_model:
+  apply: True
+  arch: "EncoderUNet_SpatialCondition"
+  in_image: ['deca_masked_face_images_woclip', 'faceseg_nohead']
+  in_channels: 6
+  image_size: 64
+  out_channels: 128
+  condition_dim: 256
+  override_cond: "spatial_latent"
+  prep_image: [Null, Null]
+  noise_dpm_cond_img: [Null, Null]
+
+train:
+  sampling_interval: 25000
+  save_interval: 5000
+
+dataset:
+  root_path: "<path_to_data>"
+  training_data: "ffhq_256_with_anno"
+
+train_misc:
+  exp_name: "DiFaReli"
+  cfg_name: "difareli_64"

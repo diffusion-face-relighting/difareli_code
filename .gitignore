@@ -1,1 +1,9 @@
 /home/mint/Released_code/difareli_code/preprocess_scripts/Relighting_preprocessing_tools/DECA/data
+sample_scripts/cond_utils/arcface/pretrained/BEST_checkpoint_r18.tar
+sample_scripts/cond_utils/arcface/detector/retinaface/weights/mobilenet0.25_Final.pth
+sample_scripts/cond_utils/arcface/detector/mtcnn/weights/
+sample_scripts/cond_utils/arcface/detector/mtcnn/images/
+model_3d/FLAME/data/
+preprocess_scripts/Relighting_preprocessing_tools/FFHQ_align/ffhq_env/
+preprocess_scripts/Relighting_preprocessing_tools/Arcface/pretrained/
+preprocess_scripts/Relighting_preprocessing_tools/Arcface/detector/mtcnn/weights/
