@@ -9,7 +9,7 @@ Puntawat Ponglertnapakorn, Nontawat Tritrong, [Supasorn Suwajanakorn](https://ww
 
 This repository contains:
 
-1. Preprocessing for any images
+1. Preprocessing script for any images
 2. Script for training and inference
 
 ## Dependencies
