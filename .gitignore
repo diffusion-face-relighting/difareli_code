@@ -7,3 +7,6 @@ model_3d/FLAME/data/
 preprocess_scripts/Relighting_preprocessing_tools/FFHQ_align/ffhq_env/
 preprocess_scripts/Relighting_preprocessing_tools/Arcface/pretrained/
 preprocess_scripts/Relighting_preprocessing_tools/Arcface/detector/mtcnn/weights/
+preprocess_scripts/Relighting_preprocessing_tools/test_images/params
+preprocess_scripts/Relighting_preprocessing_tools/test_images/rendered_images
+preprocess_scripts/Relighting_preprocessing_tools/test_images/face_segment

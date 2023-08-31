@@ -3,7 +3,7 @@ Puntawat Ponglertnapakorn, Nontawat Tritrong, [Supasorn Suwajanakorn](https://ww
 
 
 
-![Alt text](./misc_img/teaser.png)
+![Alt text](./misc/teaser.png)
 
 ## Overview
 
@@ -18,6 +18,8 @@ This repository contains:
 3. [Face parsing](https://github.com/zllrunning/face-parsing.PyTorch)
 4. [Diff-AE](https://github.com/phizaz/diffae)
 
+We also provided the requirements.txt for the dependencies. You can install all dependencies by running `pip install -r <req_file>.txt`
+
 ## Quick start
 1. Clone & Install all dependencies
 2. Prepare your images
@@ -26,36 +28,76 @@ This repository contains:
 
 ## Preprocessing
 
-1. Create and put your images in the folder following this structure
-
-
-
-2. Align the images: `python align.py -i <path_to_image> -o <output_path>`
+1. Create and put your images in the folder following this structure:
 ```
-example: python align.py -i ../test_images/images/valid -o ../test_images/images/aligned_images/valid
+./test_images
+└── images
+    └── valid
+        ├── 60922.jpg
+        └── 63252.jpg
 ```
-3. Preprocessing the 
 
+2. Align the images:\
+Command: `python align.py -i <path_to_image> -o <output_path>`\
+Example: `python align.py -i ../test_images/images/valid -o ../test_images/aligned_images/valid`
 
-## Training
+The output will be in the following structure:
 ```
-python train_scripts/image_train_no_dpm_paired.py --train.log_dir /data/mint/model_logs/test --train.batch_size 3 --train.n_gpus 1 --cfg ./config/Faster_Inference/plain_UNet_nodpm/paired+allunet_eps+nodpm_128.yaml --train.sampling_interval 50 
+./test_images
+├── aligned_images <--- Aligned Output 
+│   └── valid
+│       ├── 60922.png
+│       └── 63252.png
+└── valid
+    ├── 60922.jpg
+    └── 63252.jpg
 ```
+
+3. Preprocessing the images:
+
+Compute face parsing, Deca face estimation, Arcface feature extraction and Diff-AE's degree of shadow. We separate into 2 main steps as follows:
+
+3.1. Clone & Install [DECA](https://github.com/yfeng95/DECA), [Diff-AE](https://github.com/phizaz/diffae), [Face parsing](https://github.com/zllrunning/face-parsing.PyTorch) and [Arcface]() and put into the Relighting_preprocessing_tools folder.
+
+3.2 Running a preprocessing script:\
+Command: `python create_dataset.py --image_dir <path_to_images> --out_dataset_dir <output_path> --faceseg --deca --arcface --shadow`\
+Example: `python create_dataset.py --image_dir /home/user/difareli_code/preprocess_scripts/Relighting_preprocessing_tools/test_images/aligned_images/valid/ --out_dataset_dir ./test_images/ --faceseg --deca --arcface --shadow`
+
+Your final output folder should look like [this](./misc_md/preprocess_out.md).\
+[#Note] The path here needs to be aboslute path to the input folder.
+
+## Training model
+We provide the script and the config file for training our difareli.
+
+Command:`python train_scripts/image_train.py --train.log_dir <ckpt_savepath> --train.batch_size <batch_size> --train.n_gpus <n_gpus> --cfg <path_to_cfg>`\
+Example:`python train_scripts/image_train.py --train.log_dir /data/mint/model_logs/test --train.batch_size 32 --train.n_gpus 4 --cfg ./config/difareli/difareli_128.yaml`
+
+[#] There's some other arguments that you can use to train the model. The command line arguments will override the config file and applied in training.\
+For example, if you want to change the number of sampling interval, you can use `--train.sampling_interval <numbers_of_sampling_interval>`. and this will regards whatever in the config file as default and override it with the new value.
 
 
 ## Inference
+1. To inference our difareli, you need to prepare the sample pair in json format (e.g. [shadow.json](./sample_scripts/inference/reshadow.json) or [relight.json](./sample_scripts/inference/relight.json))
+2. Run the inference script
+
 ### Relighting 
-```
-python ./reduce_steps/relight_idx_supmat_reduce_step.py --dataset ffhq --set valid --step 085000 --out_dir /data/mint/sampling/test_release --cfg_name Masked_Face_woclip+BgNoHead+shadow_256.yaml --log_dir Masked_Face_woclip+BgNoHead+shadow_256 --diffusion_steps 1000 --timestep_respacing 1000 --seed 47 --sample_pair_json ./reduce_steps/sample.json --sample_pair_mode pair --itp render_face --itp_step 5 --batch_size 1 --gpu_id 0 --lerp --idx 0 10
-```
+To relight the image, you can to run the following command:\
+Command:`python relight.py --dataset <ffhq/mp/etc.> --set <train/valid> --step <ckpt_step> --out_dir <sampling_output> --cfg_name <cfg_name>.yaml --log_dir <ckpt_savename> --diffusion_steps <1000> --timestep_respacing <250/500/1000,etc> --sample_pair_json <path_to_sample_file> --sample_pair_mode pair --itp render_face --itp_step <number_of_frames> --batch_size <batch_size> --gpu_id <gpu_id> --lerp --idx <start_idx> <end_idx>`
+
+Example:`python relight.py --dataset ffhq --set valid --step 085000 --out_dir ./output_relight/ --cfg_name difareli_256.yaml --log_dir difareli_256 --diffusion_steps 1000 --timestep_respacing 1000 --sample_pair_json ./relight.json --sample_pair_mode pair --itp render_face --itp_step 5 --batch_size 1 --gpu_id 0 --lerp --idx 0 10`
+
+This will generate the relighting frame and video in the output folder.
+
+[#] There's some other arguments that you can use to inference the model. You can refers to the argument parser in the [script](./sample_scripts/inference/relight.py) for more details.
 
 ### Reshadow
-1. Reshadow using arbitrary 'c' value
-```
-python relight_idx_shadow.py --dataset ffhq --set valid --step 085000 --out_dir /data/mint/sampling/Generated_reshadow_-5to10 --cfg_name Masked_Face_woclip+BgNoHead+shadow_256.yaml --log_dir Masked_Face_woclip+BgNoHead+shadow_256 --diffusion_steps 1000 --seed 47 --sample_pair_json ./sample_json/generated_data/gen_data_80perc_trainset.json --sample_pair_mode pair --itp shadow --itp_step 10 --batch_size 10 --gpu_id 2 --lerp --save_vid --idx 0 24 --vary_shadow_range -5 10
-```
+1. Reshadow using arbitrary 'c' value:
 
-2. Reshadow 
-```
-python relight_idx_shadow.py --dataset ffhq --set valid --step 085000 --out_dir /data/mint/sampling/ProjectPage/Shadow --cfg_name Masked_Face_woclip+BgNoHead+shadow_256.yaml --log_dir Masked_Face_woclip+BgNoHead+shadow_256 --diffusion_steps 1000 --sample_pair_json ./sample_json/website/shadow_app_fig.json --sample_pair_mode pair --itp shadow --itp_step 16 --batch_size 10 --gpu_id 1 --lerp --save_vid --idx 0 1  --vary_shadow
-```
+Command:`python relight.py --dataset <ffhq/mp/etc.> --set <train/valid> --step <ckpt_step> --out_dir <sampling_output> --cfg_name <cfg_name>.yaml --log_dir <ckpt_savename> --diffusion_steps <1000> --timestep_respacing <250/500/1000,etc> --sample_pair_json <path_to_sample_file> --sample_pair_mode pair --itp shadow --itp_step 10 --batch_size 10 --gpu_id 2 --lerp --save_vid --idx 0 24 --vary_shadow_range <min_c> <max_c>`
+
+Example:`python reshadow.py --dataset ffhq --set valid --step 085000 --out_dir ./out_reshadow/ --cfg_name relight_256.yaml --log_dir relight_256 --diffusion_steps 1000 --seed 47 --sample_pair_json ./reshadow.json --sample_pair_mode pair --itp shadow --itp_step 10 --batch_size 10 --gpu_id 2 --lerp --save_vid --idx 0 24 --vary_shadow_range -5 10`
+
+2. Reshadow using the shadow value specified in the sample json file:\
+You can change from `--vary_shadow_range <min_c> <max_c>` into `--vary_shadow` and the script will use the shadow value specified in the sample json file.
+
+[#] There's some other arguments that you can use to inference the model. You can refers to the argument parser in the [script](./sample_scripts/inference/reshadow.py) for more details.
