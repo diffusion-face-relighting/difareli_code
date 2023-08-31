@@ -3,7 +3,7 @@ Puntawat Ponglertnapakorn, Nontawat Tritrong, [Supasorn Suwajanakorn](https://ww
 
 
 
-![Alt text](./misc/teaser.png)
+![Alt text](./misc_md/teaser.png)
 
 ## Overview
 
@@ -101,3 +101,14 @@ Example:`python reshadow.py --dataset ffhq --set valid --step 085000 --out_dir .
 You can change from `--vary_shadow_range <min_c> <max_c>` into `--vary_shadow` and the script will use the shadow value specified in the sample json file.
 
 [#] There's some other arguments that you can use to inference the model. You can refers to the argument parser in the [script](./sample_scripts/inference/reshadow.py) for more details.
+
+## Citation
+If you find this code useful for your research, please cite our paper:
+```
+@article{ponglertnapakorn2023difareli,
+  title={DiFaReli: Diffusion Face Relighting},
+  author={Ponglertnapakorn, Puntawat and Tritrong, Nontawat and Suwajanakorn, Supasorn},
+  journal={arXiv preprint arXiv:2304.09479},
+  year={2023}
+}
+```
