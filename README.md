@@ -34,6 +34,7 @@ This repository contains:
 ```
 example: python align.py -i ../test_images/images/valid -o ../test_images/images/aligned_images/valid
 ```
+3. Preprocessing the 
 
 
 ## Training
