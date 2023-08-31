@@ -1,4 +1,4 @@
-# [DiFaReli: Diffusion Face Relighting](https://diffusion-face-relighting.github.io/)(ICCV 2023)
+# [DiFaReli: Diffusion Face Relighting](https://diffusion-face-relighting.github.io/) (ICCV 2023)
 Puntawat Ponglertnapakorn, Nontawat Tritrong, [Supasorn Suwajanakorn](https://www.supasorn.com/)
 
 
