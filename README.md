@@ -14,7 +14,7 @@ This repository contains:
 
 ## Dependencies
 1. [DECA](https://github.com/yfeng95/DECA)
-2. [Arcface]()
+2. [Arcface](https://github.com/foamliu/InsightFace-v2/tree/e07b738adecb69b81ac9b8750db964cee673e175)
 3. [Face parsing](https://github.com/zllrunning/face-parsing.PyTorch)
 4. [Diff-AE](https://github.com/phizaz/diffae)
 
@@ -57,7 +57,7 @@ The output will be in the following structure:
 
 Compute face parsing, Deca face estimation, Arcface feature extraction and Diff-AE's degree of shadow. We separate into 2 main steps as follows:
 
-3.1. Clone & Install [DECA](https://github.com/yfeng95/DECA), [Diff-AE](https://github.com/phizaz/diffae), [Face parsing](https://github.com/zllrunning/face-parsing.PyTorch) and [Arcface]() and put into the Relighting_preprocessing_tools folder.
+3.1. Clone & Install [DECA](https://github.com/yfeng95/DECA), [Diff-AE](https://github.com/phizaz/diffae), [Face parsing](https://github.com/zllrunning/face-parsing.PyTorch) and [Arcface](https://github.com/foamliu/InsightFace-v2/tree/e07b738adecb69b81ac9b8750db964cee673e175) and put into the Relighting_preprocessing_tools folder.
 
 3.2 Running a preprocessing script:\
 Command: `python create_dataset.py --image_dir <path_to_images> --out_dataset_dir <output_path> --faceseg --deca --arcface --shadow`\
@@ -75,6 +75,12 @@ Example:`python train_scripts/image_train.py --train.log_dir /data/mint/model_lo
 [#] There's some other arguments that you can use to train the model. The command line arguments will override the config file and applied in training.\
 For example, if you want to change the number of sampling interval, you can use `--train.sampling_interval <numbers_of_sampling_interval>`. and this will regards whatever in the config file as default and override it with the new value.
 
+## Checkpoints
+We provide checkpoints for the following models:
+1. [difareli_128](https://vistec-my.sharepoint.com/:f:/g/personal/puntawat_p_s19_vistec_ac_th/EsrzPdKduKhFvnNXiT3XMmUBcRBvnfNlyhCS6JJM1r0qrw?e=BJO18a) (128x128 resolution)
+2. [difareli_256](https://vistec-my.sharepoint.com/:f:/g/personal/puntawat_p_s19_vistec_ac_th/EhO-rlrfEYpPm8dk6AtH-2cB8N7G_O8wm1Q_vLBVhr43Dw?e=3rlCvG) (256x256 resolution)
+
+You can download and put it in any folder. <strong>Don't forget</strong> to update the path to match the location where you placed the checkpoint at this [line](https://github.com/diffusion-face-relighting/difareli_code/blob/main/sample_scripts/sample_utils/ckpt_utils.py#L10). For example, if you put the checkpoint in `./model_logs/difareli_256/`, you need to change the path to `./model_logs/`.
 
 ## Inference
 1. To inference our difareli, you need to prepare the sample pair in json format (e.g. [shadow.json](./sample_scripts/inference/reshadow.json) or [relight.json](./sample_scripts/inference/relight.json))

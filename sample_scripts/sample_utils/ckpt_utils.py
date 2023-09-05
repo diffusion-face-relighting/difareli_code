@@ -7,8 +7,9 @@ from guided_diffusion.script_util import (
 
 class CkptLoader():
     def __init__(self, log_dir, cfg_name, device=None) -> None:
-        self.sshfs_mount_path = "/data/mint/model_logs_mount/"
-        self.sshfs_path = "/data/mint/model_logs/"
+        self.model_path = None
+        if self.model_path is None:
+            raise ValueError("Please set model checkpoint's path! See example in the docs.")
 
         self.log_dir = log_dir
         self.cfg_name = cfg_name
@@ -21,12 +22,10 @@ class CkptLoader():
             if th.cuda.is_available() and th._C._cuda_getDeviceCount() > 0:
                self.device = 'cuda' 
             else : self.device = 'cpu'
-            
-                
 
     # Config file
     def get_cfg(self):
-        cfg_file_path = glob.glob("/home/mint/guided-diffusion/config/**", recursive=True)
+        cfg_file_path = glob.glob("../../guided-diffusion/config/**", recursive=True)
         cfg_file_path = [cfg_path for cfg_path in cfg_file_path if f"/{self.cfg_name}" in cfg_path]    # Add /{}/ to achieve a case-sensitive of folder
         print("[#] Config Path : ", cfg_file_path)
         assert len(cfg_file_path) <= 1
@@ -37,7 +36,7 @@ class CkptLoader():
 
     # Log & Checkpoint file 
     def get_model_path(self,):
-        model_logs_path = glob.glob(f"{self.sshfs_mount_path}/*/*/", recursive=True) + glob.glob(f"{self.sshfs_path}/*/", recursive=True)
+        model_logs_path = glob.glob(f"{self.model_path}/*/", recursive=True)
         model_path = [m_log for m_log in model_logs_path if f"/{self.log_dir}/" in m_log]    # Add /{}/ to achieve a case-sensitive of folder
         print("[#] Model Path : ")
         for i in range(len(model_path)):
