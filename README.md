@@ -57,7 +57,18 @@ The output will be in the following structure:
 
 Compute face parsing, Deca face estimation, Arcface feature extraction and Diff-AE's degree of shadow. We separate into 2 main steps as follows:
 
-3.1. Clone & Install [DECA](https://github.com/yfeng95/DECA), [Diff-AE](https://github.com/phizaz/diffae), [Face parsing](https://github.com/zllrunning/face-parsing.PyTorch) and [Arcface](https://github.com/foamliu/InsightFace-v2/tree/e07b738adecb69b81ac9b8750db964cee673e175) and put into the Relighting_preprocessing_tools folder.
+3.1. Clone & Install [DECA](https://github.com/yfeng95/DECA), [Diff-AE](https://github.com/phizaz/diffae), [Face parsing](https://github.com/zllrunning/face-parsing.PyTorch) and [Arcface](https://github.com/foamliu/InsightFace-v2/tree/e07b738adecb69b81ac9b8750db964cee673e175) and put into the Relighting_preprocessing_tools folder. The folder structure should look like this:
+```
+.
+└── Relighting_preprocessing_tools
+    ├── Arcface                   <--- Arcface
+    ├── DECA                      <--- DECA
+    ├── diffae                    <--- DiffAE
+    ├── face-parsing.PyTorch      <--- Face parsing
+    ├── FFHQ_align                <--- Image alignment
+    ├── create_dataset.py
+    └── test_images
+```
 
 3.2 Running a preprocessing script:\
 Command: `python create_dataset.py --image_dir <path_to_images> --out_dataset_dir <output_path> --faceseg --deca --arcface --shadow`\

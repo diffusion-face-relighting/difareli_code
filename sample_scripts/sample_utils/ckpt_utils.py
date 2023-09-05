@@ -7,7 +7,7 @@ from guided_diffusion.script_util import (
 
 class CkptLoader():
     def __init__(self, log_dir, cfg_name, device=None) -> None:
-        self.model_path = None
+        self.model_path = None  # Need to be specify
         if self.model_path is None:
             raise ValueError("Please set model checkpoint's path! See example in the docs.")
 
