@@ -122,10 +122,10 @@ You can change from `--vary_shadow_range <min_c> <max_c>` into `--vary_shadow` a
 ## Citation
 If you find this code useful for your research, please cite our paper:
 ```
-@article{ponglertnapakorn2023difareli,
+@InProceedings{ponglertnapakorn2023difareli,
   title={DiFaReli: Diffusion Face Relighting},
   author={Ponglertnapakorn, Puntawat and Tritrong, Nontawat and Suwajanakorn, Supasorn},
-  journal={arXiv preprint arXiv:2304.09479},
+  journal={Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV)},
   year={2023}
 }
 ```
