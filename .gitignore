@@ -12,8 +12,8 @@ preprocess_scripts/Relighting_preprocessing_tools/test_images/rendered_images
 preprocess_scripts/Relighting_preprocessing_tools/test_images/face_segment
 
 preprocess_scripts/Relighting_preprocessing_tools/diffae
+preprocess_scripts/Relighting_preprocessing_tools/DECA
 !preprocess_scripts/Relighting_preprocessing_tools/DECA/data/FLAME_masks_face-id.pkl
 !preprocess_scripts/Relighting_preprocessing_tools/DECA/data/FLAME_masks.pkl
-!preprocess_scripts/Relighting_preprocessing_tools/DECA/decalib/
-preprocess_scripts/Relighting_preprocessing_tools/DECA
+!preprocess_scripts/Relighting_preprocessing_tools/DECA/decalib/deca.py
 
