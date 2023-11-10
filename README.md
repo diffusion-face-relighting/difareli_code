@@ -26,6 +26,14 @@ We also provided the requirements.txt for the dependencies. You can install all 
 3. Run the preprocessing script
 4. Run the training or inference script
 
+## Dependencies Installation
+1. For basic installation, you can follow the instruction in each repository given follow.
+2. For [DECA](https://github.com/yfeng95/DECA)
+
+    2.1 Masking out the render face: Since we masking out some part of the face mesh (e.g. ear, neck, etc.). We use additional [FLAME_masks_face-id.pkl](./sample_scripts/cond_utils/DECA/data/FLAME_masks_face-id.pkl) file. Make sure you change the path at [this line](./sample_scripts/sample_utils/params_utils.py#L123).
+
+    2.2 Make sure you change all of the path in sample_utils directory to match your path (e.g [params_utils.py](./sample_scripts/sample_utils/params_utils.py#L136), etc.).
+
 ## Preprocessing
 
 1. Create and put your images in the folder following this structure:

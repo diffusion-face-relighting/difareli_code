@@ -120,8 +120,9 @@ def grid_sh(n_grid, sh=None, sx=[-1, 1], sy=[1, 0], sh_scale=1.0, use_sh=False):
     return sh_light
 
 def load_flame_mask(part='face'):
-    f_mask = np.load('/home/mint/guided-diffusion/sample_scripts/cond_utils/DECA/data/FLAME_masks_face-id.pkl', allow_pickle=True, encoding='latin1')
-    v_mask = np.load('/home/mint/guided-diffusion/sample_scripts/cond_utils/DECA/data/FLAME_masks.pkl', allow_pickle=True, encoding='latin1')
+    #NOTE: Modify the path to masking the FLAME model (ear, neck, etc.)
+    f_mask = np.load("<path_to_FLAME_masks_face-id.pkl>", allow_pickle=True, encoding='latin1')
+    v_mask = np.load('<path_to_FLAME_masks.pkl>', allow_pickle=True, encoding='latin1')
     mask={
         'v_mask':v_mask[part].tolist(),
         'f_mask':f_mask[part].tolist() 
